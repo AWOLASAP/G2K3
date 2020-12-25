@@ -14,12 +14,25 @@ pyglet.resource.path = ['./Assets']
 pyglet.resource.reindex()
 game_window = pyglet.window.Window(1920, 1080)
 
-# Sprites
-background_image = pyglet.resource.image("Backgrounds/Nebula Blue.png")
-
 def centerImage(image):
     """Sets and image's anchor point to its center"""
     image.anchor_x = image.width // 2
 
+# Sprites
+background_image = pyglet.resource.image("Backgrounds/Nebula Blue.png")
+centerImage(background_image)
+
+# Labels
+score_label = pyglet.text.Label(text="Score: 0", x = game_window.width//2, y = game_window.height - 32)
+round_label = pyglet.text.Label(text="Round 1", x = 32, y = 32)
+
+@game_window.event
+def on_draw():
+    # draw things here
+    game_window.clear()
+
+    score_label.draw()
+    round_label.draw()
+
 if __name__ == '__main__':
-    pyglet.app.run()
+        pyglet.app.run()
