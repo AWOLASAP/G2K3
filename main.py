@@ -20,7 +20,7 @@ def centerImage(image):
 
 # Sprites
 background_image = pyglet.resource.image("Backgrounds/Nebula Blue.png")
-centerImage(background_image)
+background_sprite = pyglet.sprite.Sprite(img=background_image, x=0, y=0)
 
 # Labels
 score_label = pyglet.text.Label(text="Score: 0", x = game_window.width//2, y = game_window.height - 32)
@@ -31,6 +31,7 @@ def on_draw():
     # draw things here
     game_window.clear()
 
+    background_sprite.draw()
     score_label.draw()
     round_label.draw()
 
