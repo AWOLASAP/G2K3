@@ -9,31 +9,48 @@
  Don't use non main file stuff in this file
 """
 import pyglet
+from game import resources, Player
 
-pyglet.resource.path = ['./Assets']
-pyglet.resource.reindex()
+# Window class for stuff
 game_window = pyglet.window.Window(1920, 1080)
 
-def centerImage(image):
-    """Sets and image's anchor point to its center"""
-    image.anchor_x = image.width // 2
-
-# Sprites
-background_image = pyglet.resource.image("Backgrounds/Nebula Blue.png")
-background_sprite = pyglet.sprite.Sprite(img=background_image, x=0, y=0)
-
-# Labels
-score_label = pyglet.text.Label(text="Score: 0", x = game_window.width//2, y = game_window.height - 32)
-round_label = pyglet.text.Label(text="Round 1", x = 32, y = 32)
+# Game Objects, stuff like the players and enemies go in here
+player = Player.Player()
+game_objects = [player]
 
 @game_window.event
 def on_draw():
-    # draw things here
+    # Clear the game window
     game_window.clear()
 
-    background_sprite.draw()
-    score_label.draw()
-    round_label.draw()
+    # Draw various game objects
+    resources.background_sprite.draw()
+    resources.score_label.draw()
+    resources.round_label.draw()
+
+    # Draw the player
+    player.draw()
+
+# Whenever a key is pressed this funciton is called
+@game_window.event()
+def on_key_press(key, modifiers):
+    # Tell the player what keys were pressed
+    player.on_key_press(key, modifiers)
+
+# Whenever a key is released this funciton is called
+@game_window.event()
+def on_key_release(key, modifiers):
+    # Tell the player what keys were released
+    player.on_key_release(key, modifiers)
+
+# Update loop called every update tick
+def update(dt):
+    for obj in game_objects:
+        obj.update(dt)
 
 if __name__ == '__main__':
-        pyglet.app.run()
+    # Call the update function every udpate tick (double max framerate)
+    pyglet.clock.schedule_interval(update, 1 / 288.0)
+
+    # Run
+    pyglet.app.run()
