@@ -43,10 +43,10 @@ class Player():
 
     def check_bounds(self):
         # The keep the player in the bounds of the screen
-        min_x = 0 + self.sprite.image.width / 4
-        min_y = 0
-        max_x = 1920 - self.sprite.image.width / 4
-        max_y = 1080 - self.sprite.image.height / 2
+        min_x = 0 + self.sprite.image.width / 2
+        min_y = 0 - self.sprite.image.height / 6
+        max_x = 1920 - self.sprite.image.width / 2
+        max_y = 1080 - self.sprite.image.height
         if self.x < min_x:
             self.x = min_x
         elif self.x > max_x:

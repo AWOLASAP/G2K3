@@ -19,7 +19,7 @@ def create_player():
     player_image = pyglet.resource.image("Sprites/Player.png")
     centerImage(player_image)
     player_sprite = pyglet.sprite.Sprite(img=player_image, x=1920 // 2, y=1080 // 2)
-    player_sprite.scale = 0.5
+    player_sprite.scale = 1
     return player_sprite;
 
 # Sprites
