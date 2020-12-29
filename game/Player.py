@@ -4,12 +4,12 @@ from . import resources
 
 
 class Player():
-    """Physical object that responds to user input"""
+    """Class for all things the player needs"""
 
     def __init__(self, *args, **kwargs):
 
         # Base stuff for a sprite
-        self.sprite = resources.create_player()
+        self.sprite = resources.createPlayer()
         self.x, self.y = 1920/2, 1080/2
         self.velocity_x, self.velocity_y = 0, 0
 

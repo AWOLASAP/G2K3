@@ -9,14 +9,15 @@
  Don't use non main file stuff in this file
 """
 import pyglet
-from game import resources, Player
+from game import resources, Player, Enemy
 
 # Window class for stuff
 game_window = pyglet.window.Window(1920, 1080)
 
 # Game Objects, stuff like the players and enemies go in here
 player = Player.Player()
-game_objects = [player]
+enemy = Enemy.Enemy()
+game_objects = [player, enemy]
 
 @game_window.event
 def on_draw():
@@ -30,6 +31,7 @@ def on_draw():
 
     # Draw the player
     player.draw()
+    enemy.draw()
 
 # Whenever a key is pressed this funciton is called
 @game_window.event()
