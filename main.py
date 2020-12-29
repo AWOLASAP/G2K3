@@ -16,8 +16,12 @@ game_window = pyglet.window.Window(1920, 1080)
 
 # Game Objects, stuff like the players and enemies go in here
 player = Player.Player()
-enemy = Enemy.Enemy()
-game_objects = [player, enemy]
+enemy_list = []
+for i in range(1000):
+    enemy = Enemy.Enemy()
+    enemy_list.append(enemy)
+
+game_objects = [player] + enemy_list
 
 @game_window.event
 def on_draw():
@@ -29,9 +33,9 @@ def on_draw():
     resources.score_label.draw()
     resources.round_label.draw()
 
-    # Draw the player
-    player.draw()
-    enemy.draw()
+    # Draw game objects
+    for obj in game_objects:
+        obj.draw()
 
 # Whenever a key is pressed this funciton is called
 @game_window.event()
