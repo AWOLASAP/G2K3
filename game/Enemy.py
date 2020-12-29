@@ -35,6 +35,7 @@ class Enemy():
     def draw(self):
         # Draw the sprite to the screen
         self.sprite.draw()
+        print("Drawing the enemy!")
 
     def update(self, dt):
         # Reset velocity

@@ -17,31 +17,46 @@ game_window = pyglet.window.Window(1920, 1080)
 # Game Objects, stuff like the players and enemies go in here
 player = Player.Player()
 enemy_list = []
-for i in range(1000):
+global game_objects
+game_objects = [player] + enemy_list
+
+def spawnEnemy():
     enemy = Enemy.Enemy()
     enemy_list.append(enemy)
 
-game_objects = [player] + enemy_list
+def killEnemy(enemyIndex):
+    enemy_list.pop(enemyIndex)
 
 @game_window.event
 def on_draw():
     # Clear the game window
     game_window.clear()
 
-    # Draw various game objects
+    # Draw background
     resources.background_sprite.draw()
-    resources.score_label.draw()
-    resources.round_label.draw()
 
     # Draw game objects
     for obj in game_objects:
         obj.draw()
+
+    # Draw score elements
+    resources.score_label.draw()
+    resources.round_label.draw()
+
 
 # Whenever a key is pressed this funciton is called
 @game_window.event()
 def on_key_press(key, modifiers):
     # Tell the player what keys were pressed
     player.on_key_press(key, modifiers)
+
+    # Debugging tool. Create enemy when 'e' is pressed
+    # Oldest enemy is killed when 'k' is pressed
+    if key == pyglet.window.key.E:
+        spawnEnemy()
+    if key == pyglet.window.key.K:
+        killEnemy(0)
+
 
 # Whenever a key is released this funciton is called
 @game_window.event()
@@ -51,6 +66,11 @@ def on_key_release(key, modifiers):
 
 # Update loop called every update tick
 def update(dt):
+    # Update game objects list
+    global game_objects
+    game_objects = [player] + enemy_list
+
+    # Update each object
     for obj in game_objects:
         obj.update(dt)
 
