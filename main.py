@@ -64,6 +64,12 @@ def on_key_release(key, modifiers):
     # Tell the player what keys were released
     player.on_key_release(key, modifiers)
 
+# Whenever the mouse is moved, this function is called
+@game_window.event()
+def on_mouse_motion(x, y, dx, dy):
+    # Update player with the correct mouse location
+    player.on_mouse_motion(x, y)
+
 # Update loop called every update tick
 def update(dt):
     # Update game objects list

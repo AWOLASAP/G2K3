@@ -12,6 +12,7 @@ class Player():
         self.sprite = resources.createPlayer()
         self.x, self.y = 1920/2, 1080/2
         self.velocity_x, self.velocity_y = 0, 0
+        self.new_angle = 0
 
         # Set some easy-to-tweak constants
         self.speed = 1000.0
@@ -41,12 +42,23 @@ class Player():
         elif symbol == key.D:
             self.keys['right'] = False
 
+    def on_mouse_motion(self, mouse_x, mouse_y):
+        # Angle the player according to the mouse location
+        if (mouse_x - self.x) == 0 and (mouse_y > self.y):
+            self.new_angle = 90
+        elif (mouse_x - self.x) == 0 and (mouse_y < self.y):
+            self.new_angle = -90
+        else:
+            self.new_angle = math.degrees(math.atan2((mouse_y - self.y), (mouse_x - self.x)))
+
+        print(self.new_angle)
+
     def check_bounds(self):
         # The keep the player in the bounds of the screen
         min_x = 0 + self.sprite.image.width / 2
-        min_y = 0 - self.sprite.image.height / 6
+        min_y = 0 + self.sprite.image.height / 2
         max_x = 1920 - self.sprite.image.width / 2
-        max_y = 1080 - self.sprite.image.height
+        max_y = 1080 - self.sprite.image.height / 2
         if self.x < min_x:
             self.x = min_x
         elif self.x > max_x:
@@ -79,9 +91,10 @@ class Player():
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
 
-        # Keep within scree bounds
+        # Keep within screen bounds
         self.check_bounds()
 
-        # Update sprite with correct location
+        # Update sprite with correct location and rotation
         self.sprite.x = self.x
         self.sprite.y = self.y
+        self.sprite.rotation = -self.new_angle

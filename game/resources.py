@@ -7,6 +7,7 @@ pyglet.resource.reindex()
 def centerImage(image):
     """Sets and image's anchor point to its center"""
     image.anchor_x = image.width // 2
+    image.anchor_y = image.height // 2
 
 def createBackground():
     """Creates the sprite for the background"""
