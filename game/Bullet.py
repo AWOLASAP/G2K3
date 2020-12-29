@@ -4,27 +4,29 @@ from pyglet.window import key
 from . import resources
 
 
-class Enemy():
-    """Class for all things the enemy needs"""
+class Bullet():
+    """Class for all things bullets need"""
 
-    def __init__(self):
+    def __init__(self, angle, x, y):
+        # Tweakable constants
+        self.speed = 3000.0
 
         # Base stuff for a sprite
         self.player = False
         self.alive = True
-        self.sprite = resources.createEnemy()
-        self.x, self.y = random.randint(0, 1920), random.randint(0, 1080)
-        self.velocity_x, self.velocity_y = 0, 0
-
-        # Tweakable constants
-        self.speed = 100.0
+        self.angle = angle
+        self.x, self.y = x, y
+        self.sprite = resources.createBullet()
+        self.sprite.rotation = self.angle
+        self.velocity_x = math.cos(math.radians(-self.angle)) * self.speed
+        self.velocity_y = math.sin(math.radians(-self.angle)) * self.speed
 
     def check_bounds(self):
-        # The keep the enemy in the bounds of the screen
+        # The keep the bullet in the bounds of the screen
         min_x = 0 + self.sprite.image.width / 2
-        min_y = 0 + self.sprite.image.height / 2
+        min_y = 0 - self.sprite.image.height / 6
         max_x = 1920 - self.sprite.image.width / 2
-        max_y = 1080 - self.sprite.image.height / 2
+        max_y = 1080 - self.sprite.image.height
         if self.x < min_x:
             self.x = min_x
         elif self.x > max_x:
@@ -39,10 +41,6 @@ class Enemy():
         self.sprite.draw()
 
     def update(self, dt):
-        # Reset velocity
-        self.velocity_x = 0
-        self.velocity_y = 0
-
         # Update position according to velocity and time
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt

@@ -9,7 +9,7 @@
  Don't use non main file stuff in this file
 """
 import pyglet
-from game import resources, Player, Enemy
+from game import resources, Player, Enemy, Bullet
 
 # Window class for stuff
 game_window = pyglet.window.Window(1920, 1080)
@@ -17,8 +17,9 @@ game_window = pyglet.window.Window(1920, 1080)
 # Game Objects, stuff like the players and enemies go in here
 player = Player.Player()
 enemy_list = []
+bullet_list = []
 global game_objects
-game_objects = [player] + enemy_list
+game_objects = [player] + enemy_list + bullet_list
 
 def spawnEnemy():
     enemy = Enemy.Enemy()
@@ -70,11 +71,18 @@ def on_mouse_motion(x, y, dx, dy):
     # Update player with the correct mouse location
     player.on_mouse_motion(x, y)
 
+# Whenever the mouse is pressed, this function is called
+@game_window.event()
+def on_mouse_press(x, y, button, modifiers):
+    # "Fire" the gun
+    bullet = Bullet.Bullet(player.sprite.rotation, player.sprite.x, player.sprite.y)
+    bullet_list.append(bullet)
+
 # Update loop called every update tick
 def update(dt):
     # Update game objects list
     global game_objects
-    game_objects = [player] + enemy_list
+    game_objects = [player] + enemy_list + bullet_list
 
     # Update each object
     for obj in game_objects:

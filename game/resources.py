@@ -24,13 +24,20 @@ def createPlayer():
     return player_sprite;
 
 def createEnemy():
-    """Creates the sprite for the player"""
+    """Creates the sprite for the enemy"""
     enemy_image = pyglet.resource.image("Sprites/Enemy.png")
     centerImage(enemy_image)
     enemy_sprite = pyglet.sprite.Sprite(img=enemy_image, x=1920 // 2, y=1080 // 2)
     enemy_sprite.scale = 1
     return enemy_sprite;
 
+def createBullet():
+    """Creates the sprite for the bullet"""
+    bullet_image = pyglet.resource.image("Sprites/Bullet.png")
+    centerImage(bullet_image)
+    bullet_sprite = pyglet.sprite.Sprite(img=bullet_image, x=1920 // 2, y=1080 // 2)
+    bullet_sprite.scale = 1
+    return bullet_sprite
 
 # Sprites
 background_sprite = createBackground()

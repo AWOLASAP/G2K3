@@ -9,6 +9,8 @@ class Player():
     def __init__(self, *args, **kwargs):
 
         # Base stuff for a sprite
+        self.player = True
+        self.alive = True
         self.sprite = resources.createPlayer()
         self.x, self.y = 1920/2, 1080/2
         self.velocity_x, self.velocity_y = 0, 0
@@ -50,8 +52,6 @@ class Player():
             self.new_angle = -90
         else:
             self.new_angle = math.degrees(math.atan2((mouse_y - self.y), (mouse_x - self.x)))
-
-        print(self.new_angle)
 
     def check_bounds(self):
         # The keep the player in the bounds of the screen
