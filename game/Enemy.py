@@ -7,7 +7,7 @@ from . import resources
 class Enemy():
     """Class for all things the enemy needs"""
 
-    def __init__(self):
+    def __init__(self, difficulty):
 
         # Base stuff for a sprite
         self.type = "enemy"
@@ -17,7 +17,7 @@ class Enemy():
         self.velocity_x, self.velocity_y = 0, 0
 
         # Tweakable constants
-        self.speed = 100.0
+        self.speed = 100.0 * ((difficulty**4)**(1/7))
 
     def check_bounds(self):
         # The keep the enemy in the bounds of the screen
@@ -42,6 +42,13 @@ class Enemy():
         # Reset velocity
         self.velocity_x = 0
         self.velocity_y = 0
+
+        # Move the enemy towards the player
+        self.x_to_player = (game_objects[0].x - self.x)
+        self.y_to_player = (game_objects[0].y - self.y)
+        self.hypot_to_player = math.hypot(self.y_to_player / self.x_to_player)
+        self.velocity_x = math.cos(math.atan2(self.y_to_player, self.x_to_player)) * self.speed
+        self.velocity_y = math.sin(math.atan2(self.y_to_player, self.x_to_player)) * self.speed
 
         # Update position according to velocity and time
         self.x += self.velocity_x * dt

@@ -32,6 +32,8 @@ def on_draw():
     # Draw score elements
     game.score_label.draw()
     game.round_label.draw()
+    game.life_label.draw()
+    game.kills_label.draw()
 
 
 # Whenever a key is pressed this funciton is called
@@ -39,14 +41,6 @@ def on_draw():
 def on_key_press(key, modifiers):
     # Tell the player what keys were pressed
     game.player.on_key_press(key, modifiers)
-
-    # Debugging tool. Create enemy when 'e' is pressed
-    # Oldest enemy is killed when 'k' is pressed
-    if key == pyglet.window.key.E:
-        game.spawnEnemy()
-    if key == pyglet.window.key.K:
-        game.killEnemy(0)
-
 
 # Whenever a key is released this funciton is called
 @game_window.event()

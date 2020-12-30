@@ -11,6 +11,8 @@ class Player():
         # Base stuff for a sprite
         self.type = "player"
         self.alive = True
+        self.lives = 3
+        self.kills = 0
         self.sprite = resources.createPlayer()
         self.x, self.y = 1920/2, 1080/2
         self.velocity_x, self.velocity_y = 0, 0
@@ -68,6 +70,15 @@ class Player():
         elif self.y > max_y:
             self.y = max_y
 
+    def check_collision(self, enemy_list):
+        for enemy in enemy_list[1:]:
+            x_distance = enemy.x - self.x
+            y_distance = enemy.y - self.y
+            distance = math.hypot(x_distance, y_distance)
+            if distance < 75 and enemy.type == "enemy":
+                self.lives -= 1
+                enemy.alive = False
+
     def draw(self):
         # Draw the sprite to the screen
         self.sprite.draw()
@@ -93,6 +104,13 @@ class Player():
 
         # Keep within screen bounds
         self.check_bounds()
+
+        # See if the player collided with an enemy
+        self.check_collision(game_objects)
+
+        # Die if no lives
+        if self.lives <= 0:
+            self.alive = False
 
         # Update sprite with correct location and rotation
         self.sprite.x = self.x
