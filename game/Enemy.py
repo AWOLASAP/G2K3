@@ -17,7 +17,7 @@ class Enemy():
         self.velocity_x, self.velocity_y = 0, 0
 
         # Tweakable constants
-        self.speed = 100.0 * ((difficulty**4)**(1/7))
+        self.speed = 100.0 * (difficulty**(1/2))
 
     def check_bounds(self):
         # The keep the enemy in the bounds of the screen

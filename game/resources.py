@@ -77,7 +77,13 @@ class Game():
         self.counter = 0
         self.spawnRate = 1
         self.difficulty = 1
+        self.stage = 1
         self.score = 0
+
+        # Audio stuff
+        self.music = pyglet.resource.media('Sounds/Never Run.mp3')
+        self.gunshot = pyglet.media.StaticSource(pyglet.media.load('Assets/Sounds/Gunshot.wav'))
+        self.new_stage = pyglet.media.StaticSource(pyglet.media.load('Assets/Sounds/Guitar Riff.wav'))
 
     def spawnEnemy(self, difficulty):
         self.enemy = Enemy.Enemy(difficulty)
@@ -90,6 +96,7 @@ class Game():
         self.score += 100 * self.difficulty
 
     def fireBullet(self):
+        self.gunshot.play()
         self.bullet = Bullet.Bullet(self.player.sprite.rotation, self.player.sprite.x, self.player.sprite.y)
         self.bullet_list.append(self.bullet)
 
@@ -99,12 +106,19 @@ class Game():
 
     def update(self, dt):
         # Update the background if the difficulty gets high enough
-        if self.difficulty > 10:
-            if self.difficulty > 30:
+        if (self.difficulty > 10) and (self.stage != 2 or self.stage != 2):
+            if self.difficulty > 30 and self.stage != 3:
+                self.new_stage.play()
+                self.stage = 3
                 self.background_sprite = createHellBackground()
-            else:
+            elif self.difficulty < 30 and self.new_stage != 2:
+                self.new_stage.play()
+                self.stage = 2
                 self.background_sprite = createHarderBackground()
+
+
         # See if we need to spawn in an enemy
+        self.spawnRate = (1000/(self.score + 1))**(1/5)
         self.counter += dt
         if self.player.alive:
             if self.counter > self.spawnRate:

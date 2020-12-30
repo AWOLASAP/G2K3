@@ -65,4 +65,5 @@ if __name__ == '__main__':
     pyglet.clock.schedule_interval(game.update, 1 / 288.0)
 
     # Run
+    game.music.play()
     pyglet.app.run()
