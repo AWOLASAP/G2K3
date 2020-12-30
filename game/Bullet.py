@@ -12,7 +12,7 @@ class Bullet():
         self.speed = 3000.0
 
         # Base stuff for a sprite
-        self.player = False
+        self.type = "bullet"
         self.alive = True
         self.angle = angle
         self.x, self.y = x, y
@@ -22,31 +22,45 @@ class Bullet():
         self.velocity_y = math.sin(math.radians(-self.angle)) * self.speed
 
     def check_bounds(self):
-        # The keep the bullet in the bounds of the screen
+        # If the bullet goes out of bounds, kill it
         min_x = 0 + self.sprite.image.width / 2
-        min_y = 0 - self.sprite.image.height / 6
+        min_y = 0 - self.sprite.image.height / 2
         max_x = 1920 - self.sprite.image.width / 2
-        max_y = 1080 - self.sprite.image.height
+        max_y = 1080 - self.sprite.image.height / 2
         if self.x < min_x:
-            self.x = min_x
+            self.alive = False
         elif self.x > max_x:
-            self.x = max_x
-        if self.y < min_y:
-            self.y = min_y
+            self.alive = False
+        elif self.y < min_y:
+            self.alive = False
         elif self.y > max_y:
-            self.y = max_y
+            self.alive = False
+
+    def check_collision(self, game_objects):
+        # Go through all the game objects, excluding the first (the player)
+        for obj in game_objects[1:]:
+            # Don't check for collision with self
+            if ( (obj.x - obj.sprite.width/2) < (self.x - self.sprite.width/2) and
+                    (obj.x + obj.sprite.width/2) > (self.x + self.sprite.width/2) and
+                    (obj.y - obj.sprite.height/2) < (self.y - self.sprite.height/2) and
+                    (obj.y + obj.sprite.height/2) > (self.y + self.sprite.height/2) ):
+                self.alive = False
+                obj.alive = False
 
     def draw(self):
         # Draw the sprite to the screen
         self.sprite.draw()
 
-    def update(self, dt):
+    def update(self, dt, game_objects):
         # Update position according to velocity and time
         self.x += self.velocity_x * dt
         self.y += self.velocity_y * dt
 
-        # Keep within screen bounds
+        # Kill if out of bounds
         self.check_bounds()
+
+        # See if the bullet has collided with an enemy
+        self.check_collision(game_objects)
 
         # Update sprite with correct location
         self.sprite.x = self.x

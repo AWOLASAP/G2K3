@@ -9,7 +9,7 @@ class Player():
     def __init__(self, *args, **kwargs):
 
         # Base stuff for a sprite
-        self.player = True
+        self.type = "player"
         self.alive = True
         self.sprite = resources.createPlayer()
         self.x, self.y = 1920/2, 1080/2
@@ -72,7 +72,7 @@ class Player():
         # Draw the sprite to the screen
         self.sprite.draw()
 
-    def update(self, dt):
+    def update(self, dt, game_objects):
         # Reset velocity
         self.velocity_x = 0
         self.velocity_y = 0

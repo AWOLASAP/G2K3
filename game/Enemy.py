@@ -10,7 +10,7 @@ class Enemy():
     def __init__(self):
 
         # Base stuff for a sprite
-        self.player = False
+        self.type = "enemy"
         self.alive = True
         self.sprite = resources.createEnemy()
         self.x, self.y = random.randint(0, 1920), random.randint(0, 1080)
@@ -38,7 +38,7 @@ class Enemy():
         # Draw the sprite to the screen
         self.sprite.draw()
 
-    def update(self, dt):
+    def update(self, dt, game_objects):
         # Reset velocity
         self.velocity_x = 0
         self.velocity_y = 0
